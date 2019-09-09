@@ -1,0 +1,152 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "gitHubUser": {
+      "type": "string",
+      "metadata": {
+        "description": "Your GitHub username"
+      },
+      "defaultValue": "tescales"
+    },
+    "gitHubRepo": {
+      "type": "string",
+      "metadata": {
+        "description": "Your GitHub repo"
+      },
+      "defaultValue": "azure-bootstrapper-arm"
+    },
+    "subscriptionId": {
+      "type": "string",
+      "metadata": {
+        "description": "Your Azure Subscription Id"
+      },
+      "defaultValue": "[subscription().subscriptionId]"
+    },
+    "aadTenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "Your AzureAD TenantId"
+      },
+      "defaultValue": "[subscription().tenantId]"
+    },
+    "roleName": {
+      "type": "string",
+      "metadata": {
+        "description": "Choose the Role to Assign"
+      },
+      "defaultValue": "None"
+    }
+  },
+  "variables": {
+    "ghURL": "[concat('https://raw.githubusercontent.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'), '/master')]",
+    "roleAssignmentId": "[guid(resourceGroup().name)]",
+    "cgName": "[concat('deploy', take(toLower( replace( resourceGroup().name, '-', '') ),23))]",
+    "roleDefinitions": {
+      "Owner": {
+        "id": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+      },
+      "Contributor": {
+        "id": "b24988ac-6180-42a0-ab88-20f7382dd24c"
+      },
+      "Reader": {
+        "id": "acdd72a7-3385-48ef-bd42-f606fba81ae7"
+      },
+      "StorageBlobDataOwner": {
+        "id": "b7e6dc6d-f1e8-4753-8033-0f276bb0955b"
+      },
+      "StorageBlobDataContributor": {
+        "id": "ba92f5b4-2d11-453d-a403-e96b0029c9fe"
+      },
+      "StorageBlobDataReader": {
+        "value": "2a2b9908-6ea1-4ae2-8e65-a410df84e7d1"
+      },
+      "None": {
+        "id": "none"
+      },
+      "none": {
+        "id": "none"
+      }
+    },
+    "chosenRole": "[variables('roleDefinitions')[parameters('roleName')].id]",
+    "roleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', variables('chosenRole'))]"
+  },
+  "resources": [
+    {
+      "name": "[variables('cgName')]",
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2018-10-01",
+      "location": "[resourcegroup().location]",
+      "comments": "",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "containers": [
+          {
+            "name": "bootstrapper",
+            "properties": {
+              "image": "microsoft/azure-cli",
+              "command": [
+                "/bin/bash",
+                "-c",
+                "chmod +x /code/$GITHUB_REPO/bootstrap/bootstrap.sh; /code/$GITHUB_REPO/bootstrap/bootstrap.sh"
+              ],
+              "volumeMounts": [
+                {
+                  "name": "git-volume",
+                  "mountPath": "/code"
+                }
+              ],
+              "environmentVariables": [
+                {
+                  "name": "GITHUB_REPO",
+                  "value": "[parameters('gitHubRepo')]"
+                },
+                {
+                  "name": "AZURE_RESOURCE_GROUP",
+                  "value": "[resourceGroup().name]"
+                },
+                {
+                  "name": "AZURE_LOCATION",
+                  "value": "[resourceGroup().location]"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": "1",
+                  "memoryInGb": "1"
+                }
+              }
+            }
+          }
+        ],
+        "restartPolicy": "OnFailure",
+        "osType": "Linux",
+        "volumes": [
+          {
+            "name": "git-volume",
+            "gitRepo": {
+              "repository": "[concat('https://github.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'))]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "condition": "[not(equals(variables('chosenRole'),'none'))]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2017-09-01",
+      "name": "[variables('roleAssignmentId')]",
+      "dependsOn": [
+        "[concat('Microsoft.ContainerInstance/containerGroups/', variables('cgName'))]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[variables('roleDefinitionId').value]",
+        "principalId": "[reference(concat('Microsoft.ContainerInstance/containerGroups/', variables('cgName')), '2018-10-01', 'Full').identity.principalId]",
+        "scope": "[resourcegroup().id]"
+      }
+    }
+  ],
+  "outputs": {}
+}
