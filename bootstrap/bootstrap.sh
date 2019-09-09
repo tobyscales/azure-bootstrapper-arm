@@ -1,7 +1,7 @@
 #!/bin/bash
 # additional environment variables available: $AZURE_SUBSCRIPTION_ID, $AZURE_AADTENANT_ID and $AZURE_KEYVAULT
-echo location: $AZURE_LOCATION
-echo Resourcegroup: $AZURE_RESOURCE_GROUP
+echo Location: $AZURE_LOCATION
+echo Resource Group: $AZURE_RESOURCE_GROUP
 
 az login --identity
 az configure --defaults location=$AZURE_LOCATION
