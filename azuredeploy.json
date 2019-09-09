@@ -42,7 +42,7 @@
       "metadata": {
         "description": "Enter a name to deploy a new KeyVault and grant access to the bootstrapper script, or type 'none' to skip."
       },
-      "defaultValue": "test-kvdp"
+      "defaultValue": "[concat('kv-', resourcegroup().name)]"
     }
   },
   "variables": {
