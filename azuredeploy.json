@@ -35,7 +35,7 @@
       "metadata": {
         "description": "Choose the Role to Assign"
       },
-      "defaultValue": "None"
+      "defaultValue": "Owner"
     }
   },
   "variables": {
