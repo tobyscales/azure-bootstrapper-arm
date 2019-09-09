@@ -36,6 +36,13 @@
         "description": "Choose the Role to Assign"
       },
       "defaultValue": "Owner"
+    },
+    "newVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Enter a name to deploy a new KeyVault and grant access to the bootstrapper script, or type 'none' to skip."
+      },
+      "defaultValue": "test-kvdp"
     }
   },
   "variables": {
@@ -118,6 +125,10 @@
                 {
                   "name": "AZURE_AADTENANT_ID",
                   "value": "[parameters('aadTenantId')]"
+                },
+                {
+                  "name": "AZURE_KEYVAULT",
+                  "value": "[parameters('newVaultName')]"
                 }
               ],
               "resources": {
@@ -153,6 +164,39 @@
         "roleDefinitionId": "[variables('roleDefinitionId')]",
         "principalId": "[reference(concat('Microsoft.ContainerInstance/containerGroups/', variables('cgName')), '2018-10-01', 'Full').identity.principalId]",
         "scope": "[resourcegroup().id]"
+      }
+    },
+    {
+      "condition": "[not(equals(parameters('newVaultName'),'none'))]",
+      "name": "[parameters('newVaultName')]",
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2016-10-01",
+      "location": "[resourcegroup().location]",
+      "tags": {},
+      "dependsOn": [
+        "[concat('Microsoft.ContainerInstance/containerGroups/', variables('cgName'))]"
+      ],
+      "properties": {
+        "tenantId": "[parameters('aadTenantId')]",
+        "sku": {
+          "family": "A",
+          "name": "standard"
+        },
+        "accessPolicies": [
+          {
+            "tenantId": "[reference(concat('Microsoft.ContainerInstance/containerGroups/', variables('cgName')), '2018-10-01', 'Full').identity.tenantId]",
+            "objectId": "[reference(concat('Microsoft.ContainerInstance/containerGroups/', variables('cgName')), '2018-10-01', 'Full').identity.principalId]",
+            "permissions": {
+              "keys": [],
+              "secrets": [
+                "all"
+              ],
+              "certificates": [],
+              "storage": []
+            }
+          }
+        ],
+        "enabledForTemplateDeployment": true
       }
     }
   ],
