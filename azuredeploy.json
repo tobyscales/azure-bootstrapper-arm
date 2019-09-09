@@ -110,6 +110,14 @@
                 {
                   "name": "AZURE_LOCATION",
                   "value": "[resourceGroup().location]"
+                },
+                {
+                  "name": "AZURE_SUBSCRIPTION_ID",
+                  "value": "[parameters('subscriptionId')]"
+                },
+                {
+                  "name": "AZURE_AADTENANT_ID",
+                  "value": "[parameters('aadTenantId')]"
                 }
               ],
               "resources": {

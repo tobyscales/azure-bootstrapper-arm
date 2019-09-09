@@ -1,4 +1,5 @@
 #!/bin/bash
+# additional environment variables available: $AZURE_SUBSCRIPTION_ID and $AZURE_AADTENANT_ID
 echo location: $AZURE_LOCATION
 echo Resourcegroup: $AZURE_RESOURCE_GROUP
 
