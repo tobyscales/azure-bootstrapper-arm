@@ -142,7 +142,7 @@
         "[concat('Microsoft.ContainerInstance/containerGroups/', variables('cgName'))]"
       ],
       "properties": {
-        "roleDefinitionId": "[variables('roleDefinitionId').value]",
+        "roleDefinitionId": "[variables('roleDefinitionId')]",
         "principalId": "[reference(concat('Microsoft.ContainerInstance/containerGroups/', variables('cgName')), '2018-10-01', 'Full').identity.principalId]",
         "scope": "[resourcegroup().id]"
       }
