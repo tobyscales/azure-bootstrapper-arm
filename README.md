@@ -3,15 +3,14 @@ Sometimes you need to run some extra commands as part of your [ARM template depl
 
 Enter the ARM Template Bootstrapper. Use this code as a template, or just fork the repo and update the defaults in azuredeploy.json with your GitHub username and repo. The template automatically spins up an Azure Container Instance, pulls down your GitHub repo and runs the commands in bootstrap.sh.
 
-Optionally assign appropriate rights to the Container Instance prior to executing your script: currently supported roles are Owner, Contributor, Reader and Storage Data Owner, Storage Data Contributor and Storage Data Reader. 
+Optionally assign appropriate rights to the Container Instance prior to executing your script, and/or create a KeyVault to store secrets you generate in your sidecar. Currently supported roles are Owner, Contributor, Reader and Storage Data Owner, Storage Data Contributor and Storage Data Reader. 
 
-Hopefully this makes your life easier!
-
-Try it out in your subscription here:
+You can try it out in your subscription here:
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftescales%2Fazure-bootstrapper-arm%2Fmaster%2Fazuredeploy.json" target="_blank">
 <img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.png"/>
 </a>
 
+Hopefully this makes your life a bit easier!
 
 `Tags: Azure Container Instances, Bootstrap, ARM`
