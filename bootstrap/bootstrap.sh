@@ -14,5 +14,5 @@ jq -r '"secretUrl: \(.id)"' secret.json
 az keyvault secret show --vault-name $AZURE_KEYVAULT --name "mySecret" > value.json
 jq -r '"secretValue: \(.value)"' value.json
 
-## uncomment the below statement to troubleshoot your startup script interactively in ACI (Connect tab)
+## uncomment the below statement to troubleshoot your startup script interactively in ACI (on the Connect tab)
 #tail -f /dev/null
