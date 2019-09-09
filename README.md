@@ -1,2 +1,8 @@
-# azure-bootstrapper-arm
-Easily bootstrap your ARM template deployments by running a few commands in an Azure Container Instance.
+# ARM Template Bootstrapper
+Sometimes you need to run some extra commands as part of your [ARM template deployment](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-authoring-templates). It might be creating a user, storing a secret, or any other random little "sidecar" action that, sure, you *could* do in a CI pipeline but wouldn't it be nicer to do it all within ARM?
+
+Enter the ARM Template Bootstrapper. Use this code as a template, or just fork the repo and update the defaults in azuredeploy.json with your GitHub username and repo. The template automatically spins up an Azure Container Instance, pulls down your GitHub repo and runs the commands in bootstrap.sh.
+
+Optionally assign appropriate rights to the Container Instance prior to executing your script: currently supported roles are Owner, Contributor, Reader and Storage Data Owner, Storage Data Contributor and Storage Data Reader. 
+
+Hopefully this makes your life easier!
