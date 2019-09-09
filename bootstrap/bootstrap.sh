@@ -9,11 +9,9 @@ az configure --defaults group=$AZURE_RESOURCE_GROUP
 
 ## sample keyvault creation requires --no-self-perms since we are running under a managed identity
 az keyvault create --name kv-$AZURE_RESOURCE_GROUP --enabled-for-deployment true --enabled-for-template-deployment true --no-self-perms > output.json
-cat output.json
 jq -r '"keyVaultUrl: \(.properties.vaultUri)"' output.json
 
-# note this will fail unless you set AzKV as secret
-az keyvault secret set "mySecret" --vault-name kv-$AZURE_RESOURCE_GROUP --value "mySecretValue" > secret.json
+az keyvault secret set --name "mySecret" --value "mySecretValue" --vault-name kv-$AZURE_RESOURCE_GROUP > secret.json
 cat secret.json
 
 tail /dev/null
