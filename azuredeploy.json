@@ -76,6 +76,7 @@
       }
     },
     "chosenRole": "[variables('roleDefinitions')[parameters('roleName')].id]",
+    "imageName": "mcr.microsoft.com/azure-cli",
     "roleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', variables('chosenRole'))]"
   },
   "resources": [
@@ -93,7 +94,7 @@
           {
             "name": "bootstrapper",
             "properties": {
-              "image": "microsoft/azure-cli",
+              "image": "[variables('imageName')]",
               "command": [
                 "/bin/bash",
                 "-c",
