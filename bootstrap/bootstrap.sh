@@ -7,6 +7,8 @@ az login --identity
 az configure --defaults location=$AZURE_LOCATION
 az configure --defaults group=$AZURE_RESOURCE_GROUP
 
+cd $BOOTSTRAP_REPO
+
 ## sample keyvault secret set/get operations
 az keyvault secret set --vault-name $AZURE_KEYVAULT --name "mySecret" --value "mySecretValue"  > secret.json
 jq -r '"secretUrl: \(.id)"' secret.json

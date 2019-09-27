@@ -76,7 +76,7 @@
       }
     },
     "chosenRole": "[variables('roleDefinitions')[parameters('roleName')].id]",
-    "imageName": "mcr.microsoft.com/azure-cli",
+    "imageName": "mcr.microsoft.com/azure-cli:latest",
     "roleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', variables('chosenRole'))]"
   },
   "resources": [
@@ -102,14 +102,14 @@
               ],
               "volumeMounts": [
                 {
-                  "name": "git-volume",
-                  "mountPath": "/code"
+                  "name": "git-bootstrapper",
+                  "mountPath": "[parameters('gitHubUser')]"
                 }
               ],
               "environmentVariables": [
                 {
-                  "name": "GITHUB_REPO",
-                  "value": "[parameters('gitHubRepo')]"
+                  "name": "BOOTSTRAP_REPO",
+                  "value": "[concat(parameters('gitHubUser'), '/', parameters('gitHubRepo'))]"
                 },
                 {
                   "name": "AZURE_RESOURCE_GROUP",
@@ -145,7 +145,7 @@
         "osType": "Linux",
         "volumes": [
           {
-            "name": "git-volume",
+            "name": "git-bootstrapper",
             "gitRepo": {
               "repository": "[concat('https://github.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'))]"
             }
