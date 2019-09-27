@@ -99,7 +99,7 @@
               "command": [
                 "/bin/bash",
                 "-c",
-                "chmod +x /code/$GITHUB_REPO/bootstrap/bootstrap.sh; /code/$GITHUB_REPO/bootstrap/bootstrap.sh"
+                "chmod +x /$BOOTSTRAP_REPO/bootstrap/bootstrap.sh; /$BOOTSTRAP_REPO/bootstrap/bootstrap.sh"
               ],
               "volumeMounts": [
                 {

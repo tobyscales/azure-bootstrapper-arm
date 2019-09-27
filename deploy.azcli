@@ -2,7 +2,7 @@
 $resourceGroup = ""
 $location = "westus2"
 $gitHubUser = "tescales"
-$gitHubRepo = "azure-scaffold"
+$gitHubRepo = "azure-bootstrapper-arm"
 $roleName = "Owner"
 $kvName = "none"
 
