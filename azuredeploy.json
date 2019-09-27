@@ -46,9 +46,9 @@
     }
   },
   "variables": {
-    "ghURL": "[concat('https://raw.githubusercontent.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'), '/master')]",
-    "roleAssignmentId": "[guid(resourceGroup().name)]",
-    "cgName": "[concat('deploy', take(toLower( replace( resourceGroup().name, '-', '') ),23))]",
+    "imagePath": "mcr.microsoft.com/azure-cli",
+    "imageName": "[take(toLower( split(variables('imagePath'),'/')[1]),23)]",
+    "cgName": "[concat('deploy_', variables('imageName'))]",
     "roleDefinitions": {
       "Owner": {
         "id": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
@@ -76,8 +76,9 @@
       }
     },
     "chosenRole": "[variables('roleDefinitions')[parameters('roleName')].id]",
-    "imageName": "mcr.microsoft.com/azure-cli:latest",
-    "roleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', variables('chosenRole'))]"
+    "roleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', variables('chosenRole'))]",
+    "roleAssignmentId": "[guid(resourceGroup().name)]",
+    "ghURL": "[concat('https://raw.githubusercontent.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'), '/master')]"
   },
   "resources": [
     {
@@ -92,9 +93,9 @@
       "properties": {
         "containers": [
           {
-            "name": "bootstrapper",
+            "name": "[variables('imageName')]",
             "properties": {
-              "image": "[variables('imageName')]",
+              "image": "[variables('imagePath')]",
               "command": [
                 "/bin/bash",
                 "-c",
@@ -103,7 +104,7 @@
               "volumeMounts": [
                 {
                   "name": "git-bootstrapper",
-                  "mountPath": "[parameters('gitHubUser')]"
+                  "mountPath": "[concat('/', parameters('gitHubUser'))]"
                 }
               ],
               "environmentVariables": [
