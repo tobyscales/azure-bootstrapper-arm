@@ -1,5 +1,5 @@
 ## Variables
-$resourceGroup = ""
+$resourceGroup = "azure-bootstrapper-arm"
 $location = "westus2"
 $gitHubUser = "tescales"
 $gitHubRepo = "azure-bootstrapper-arm"
