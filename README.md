@@ -10,9 +10,23 @@ Connecting to a private Git repo is possible, but it requires a bit more [config
 You can try it out in your subscription here:
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftescales%2Fazure-bootstrapper-arm%2Fmaster%2Fazuredeploy.json" target="_blank">
-<img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.png"/>
-</a>
+<img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.png"/></a>
 
 Hopefully this makes your life a bit easier!
 
 `Tags: Azure Container Instances, Bootstrap, ARM`
+
+[azure-container-instances]: https://docs.microsoft.com/en-us/azure/container-instances/
+[azure-resource-manager]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/
+[azure-bootstrapper-arm]: https://github.com/tescales/azure-bootstrapper-arm
+
+```mermaid
+%% Here's a great diagram
+	AzureADAuthenticationDiagram
+		IdP->>RP: hi there
+	end
+​```
+```
+
+
+

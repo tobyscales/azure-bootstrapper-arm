@@ -16,6 +16,13 @@
       },
       "defaultValue": "azure-bootstrapper-arm"
     },
+    "bootStrapUri": {
+      "type": "string",
+      "metadata": {
+        "description": "URI for your bootstrap script; if not specified will pull bootstrap/bootstrap.sh from the GH repo."
+      },
+      "defaultValue": ""
+    },
     "subscriptionId": {
       "type": "string",
       "metadata": {
@@ -33,7 +40,7 @@
     "roleName": {
       "type": "string",
       "metadata": {
-        "description": "Choose the Role to Assign"
+        "description": "Choose the Role to Assign to Bootstrapper Container"
       },
       "defaultValue": "Owner"
     },
@@ -42,7 +49,7 @@
       "metadata": {
         "description": "Enter a name to deploy a new KeyVault and grant access to the bootstrapper script, or type 'none' to skip."
       },
-      "defaultValue": "kv-bootstrap"
+      "defaultValue": "none"
     }
   },
   "variables": {
@@ -70,15 +77,16 @@
       },
       "None": {
         "id": "none"
-      },
-      "none": {
-        "id": "none"
       }
     },
     "chosenRole": "[variables('roleDefinitions')[parameters('roleName')].id]",
     "roleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', variables('chosenRole'))]",
     "roleAssignmentId": "[guid(resourceGroup().name)]",
-    "ghURL": "[concat('https://raw.githubusercontent.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'), '/master')]"
+    "thisRepoUri": "[if(contains(string(deployment().properties), 'templateLink'), 'https://raw.githubusercontent.com/tescales/azure-bootstrapper-arm/master', deployment().templateLink.uri)]",
+    "thisRepoUser": "[take(skip(array(split(variables('thisRepoUri'), '/')),3),1)[0]]",
+    "thisRepo": "[take(skip(array(split(variables('thisRepoUri'), '/')),4),1)[0]]",
+    "ghURI": "[concat('https://raw.githubusercontent.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'), '/master/bootstrap/bootstrap.sh')]",
+    "bootStrapUri": "[if(empty(parameters('bootStrapUri')),variables('ghURI'),parameters('bootStrapUri'))]"
   },
   "resources": [
     {
@@ -99,7 +107,7 @@
               "command": [
                 "/bin/bash",
                 "-c",
-                "chmod +x /$BOOTSTRAP_REPO/bootstrap/bootstrap.sh; /$BOOTSTRAP_REPO/bootstrap/bootstrap.sh"
+                "chmod +x /$THIS_REPO/bootstrap/login.sh; /$THIS_REPO/bootstrap/login.sh"
               ],
               "volumeMounts": [
                 {
@@ -109,8 +117,12 @@
               ],
               "environmentVariables": [
                 {
-                  "name": "BOOTSTRAP_REPO",
-                  "value": "[concat(parameters('gitHubUser'), '/', parameters('gitHubRepo'))]"
+                  "name": "BOOTSTRAP_URI",
+                  "value": "[variables('bootStrapUri')]"
+                },
+                {
+                  "name": "THIS_REPO",
+                  "value": "[concat(variables('thisRepoUser'), '/', variables('thisRepo'))]"
                 },
                 {
                   "name": "AZURE_RESOURCE_GROUP",
@@ -148,7 +160,7 @@
           {
             "name": "git-bootstrapper",
             "gitRepo": {
-              "repository": "[concat('https://github.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'))]"
+              "repository": "[concat('https://github.com/', variables('thisRepoUser'), '/', variables('thisRepo'))]"
             }
           }
         ]

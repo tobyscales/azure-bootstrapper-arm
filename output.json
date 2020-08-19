@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "gitHubUser": {
+            "type": "string",
+            "metadata": {
+                "description": "Your GitHub username"
+            },
+            "defaultValue": "tescales"
+        },
+        "gitHubRepo": {
+            "type": "string",
+            "metadata": {
+                "description": "Your GitHub repo"
+            },
+            "defaultValue": "azure-bootstrapper-arm"
+        }
+    },
+    "variables": {
+        "thisRepoUri": "[if(contains(string(deployment().properties), 'templateLink'), 'https://raw.githubusercontent.com/tescales/azure-bootstrapper-arm/master', deployment().templateLink.uri)]",
+        "thisRepoUser": "[take(skip(array(split(variables('thisRepoUri'), '/')),3),1)[0]]",
+        "thisRepo": "[take(skip(array(split(variables('thisRepoUri'), '/')),4),1)[0]]",
+
+        "ghURL": "[concat('https://raw.githubusercontent.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'), '/master')]",
+        "ghArray": "[take(skip(array(split(variables('ghURL'), '/')),3),2)]",
+        "ghCreateArray": "[createArray(split(variables('ghURL'),'/'))]"
+    },
+    "resources": [
+    ],
+    "outputs": {
+        "ghArray": {
+            "type": "string",
+            "value": "[variables('thisRepoUser')]"
+        },
+        "ghCreateArray": {
+            "type": "string",
+            "value": "[variables('thisRepo')]"
+        }
+    }
+}
