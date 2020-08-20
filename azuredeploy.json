@@ -107,12 +107,12 @@
               "command": [
                 "/bin/bash",
                 "-c",
-                "chmod +x /$THIS_REPO/bootstrap/login.sh; /$THIS_REPO/bootstrap/login.sh"
+                "chmod +x /$THIS_REPO/bootstrap/login.sh; /$THIS_REPO/bootstrap/login.sh; tail -f /dev/null"
               ],
               "volumeMounts": [
                 {
                   "name": "git-bootstrapper",
-                  "mountPath": "[concat('/', parameters('gitHubUser'))]"
+                  "mountPath": "[concat('/', variables('thisRepoUser'))]"
                 }
               ],
               "environmentVariables": [

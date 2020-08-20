@@ -1,12 +1,12 @@
 #!/bin/bash
 # additional environment variables available: $AZURE_SUBSCRIPTION_ID, $AZURE_AADTENANT_ID and $AZURE_KEYVAULT
 
-clear
-echo *************************************************
+
+echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 echo You\'re running the default bootstrap.sh script. 
 echo To execute a custom script, provide either a bootStrapUri 
 echo or gitHubRepo and gitHubUsername as parameters.
-echo ************************************************* 
+echo '''''''''&&&&&&&&&&&&&&&&&&&***********######'#####'###########
 
 ## sample keyvault secret set/get operations
 az keyvault secret set --vault-name $AZURE_KEYVAULT --name "mySecret" --value "mySecretValue"  > secret.json
