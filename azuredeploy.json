@@ -128,7 +128,7 @@
     "chosenRole": "[variables('roleDefinitions')[parameters('roleName')].id]",
     "roleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', variables('chosenRole'))]",
     "roleAssignmentId": "[guid(resourceGroup().name)]",
-    "thisRepoUri": "[if(contains(deployment().properties, 'templateLink'), deployment().templateLink.uri, 'https://raw.githubusercontent.com/tescales/azure-bootstrapper-arm/master')]",
+    "thisRepoUri": "[if(contains(deployment().properties, 'templateLink'), deployment().properties.templateLink.uri, 'https://raw.githubusercontent.com/tescales/azure-bootstrapper-arm/master')]",
     "thisRepoUser": "[take(skip(array(split(variables('thisRepoUri'), '/')),3),1)[0]]",
     "thisRepo": "[take(skip(array(split(variables('thisRepoUri'), '/')),4),1)[0]]",
     "ghURI": "[concat('https://raw.githubusercontent.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'), '/master/bootstrap/bootstrap.sh')]",
