@@ -32,18 +32,8 @@ az configure --defaults location=$AZURE_LOCATION
 az configure --defaults group=$AZURE_RESOURCE_GROUP
 
 echo Downloading $BOOTSTRAP_URI...
-curl -o bootstrap.sh -S $BOOTSTRAP_URI
+curl -S $BOOTSTRAP_URI > bootstrap.sh
 
 echo Executing $BOOTSTRAP_URI
 echo from $PWD...
 source bootstrap.sh
-
-## sample keyvault secret set/get operations
-#az keyvault secret set --vault-name $AZURE_KEYVAULT --name "mySecret" --value "mySecretValue"  > secret.json
-#jq -r '"secretUrl: \(.id)"' secret.json
-
-#az keyvault secret show --vault-name $AZURE_KEYVAULT --name "mySecret" > value.json
-#jq -r '"secretValue: \(.value)"' value.json
-
-## uncomment the below statement to troubleshoot your startup script interactively in ACI (on the Connect tab)
-#tail -f /dev/null
