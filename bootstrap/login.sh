@@ -32,11 +32,11 @@ az configure --defaults location=$AZURE_LOCATION
 az configure --defaults group=$AZURE_RESOURCE_GROUP
 
 echo Downloading $BOOTSTRAP_URI...
-curl -os bootstrap.sh $BOOTSTRAP_URI
+curl -o bootstrap.sh -S $BOOTSTRAP_URI
 
 echo Executing $BOOTSTRAP_URI
 echo from $PWD...
-source ./bootstrap.sh
+source bootstrap.sh
 
 ## sample keyvault secret set/get operations
 #az keyvault secret set --vault-name $AZURE_KEYVAULT --name "mySecret" --value "mySecretValue"  > secret.json
