@@ -45,6 +45,8 @@ case $DEBUGMODE in
     echo !!!!!!!!!!!!!! bootstrap.sh !!!!!!!!!!!!!!!!!
     cat bootstrap.sh
     echo !!!!!!!!!!!!!!!!!!!!EOF!!!!!!!!!!!!!!!!!!!!!!
+    source bootstrap.sh
+    tail -f /dev/null
     ;;
   "False")
     source bootstrap.sh
