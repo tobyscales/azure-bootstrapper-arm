@@ -26,7 +26,7 @@ retry() {
     done
 }
 
-retry 5 az login --identity
+#retry 5 az login --identity
 
 az configure --defaults location=$AZURE_LOCATION
 az configure --defaults group=$AZURE_RESOURCE_GROUP
