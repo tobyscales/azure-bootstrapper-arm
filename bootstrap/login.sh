@@ -31,10 +31,11 @@ retry 5 az login --identity
 az configure --defaults location=$AZURE_LOCATION
 az configure --defaults group=$AZURE_RESOURCE_GROUP
 
-cd /$BOOTSTRAP_REPO
-
+echo Downloading $BOOTSTRAP_URI...
 curl -o bootstrap.sh $BOOTSTRAP_URI
-source bootstrap.sh
+
+echo Executing $BOOTSTRAP_URI from ${cwd}...
+source ./bootstrap.sh
 
 ## sample keyvault secret set/get operations
 #az keyvault secret set --vault-name $AZURE_KEYVAULT --name "mySecret" --value "mySecretValue"  > secret.json
