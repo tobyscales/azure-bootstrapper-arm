@@ -32,7 +32,7 @@ az configure --defaults location=$AZURE_LOCATION
 az configure --defaults group=$AZURE_RESOURCE_GROUP
 
 echo Downloading $BOOTSTRAP_URI...
-curl -S $BOOTSTRAP_URI > bootstrap.sh
+curl -s $BOOTSTRAP_URI > bootstrap.sh
 
 echo Executing $BOOTSTRAP_URI
 echo from $PWD...
