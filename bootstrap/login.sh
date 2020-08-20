@@ -38,10 +38,13 @@ echo Executing $BOOTSTRAP_URI
 echo     from $PWD...
 echo
 
-case "${DEBUGMODE}" in
-  "true")
-    echo Debug mode:
+case $DEBUGMODE in
+  "True")
+    echo Debug mode enabled.
+    echo
+    echo !!!!!!!!!!!!!! bootstrap.sh !!!!!!!!!!!!!!!!!
     cat bootstrap.sh
-  "false")
+    echo !!!!!!!!!!!!!!!!!!!!EOF!!!!!!!!!!!!!!!!!!!!!!
+  "False")
     source bootstrap.sh
 esac
