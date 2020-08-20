@@ -107,7 +107,7 @@
               "command": [
                 "/bin/bash",
                 "-c",
-                "chmod +x /$THIS_REPO/bootstrap/login.sh; /$THIS_REPO/bootstrap/login.sh; tail -f /dev/null"
+                "chmod +x /$THIS_REPO/bootstrap/login.sh; /$THIS_REPO/bootstrap/login.sh"
               ],
               "volumeMounts": [
                 {
