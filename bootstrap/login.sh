@@ -30,10 +30,11 @@ retry() {
 
 az configure --defaults location=$AZURE_LOCATION
 az configure --defaults group=$AZURE_RESOURCE_GROUP
-
+echo
 echo Downloading $BOOTSTRAP_URI...
 curl -s $BOOTSTRAP_URI > bootstrap.sh
-
+echo
 echo Executing $BOOTSTRAP_URI
-echo from $PWD...
+echo     from $PWD...
+echo
 source bootstrap.sh
