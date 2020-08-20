@@ -28,16 +28,11 @@
       "metadata": {
         "description": "Pass additional parameters to the bootstrap.sh script."
       },
-      "defaultValue": [
-        {
-          "name": "test",
-          "value": "tested"
-        },
-        {
-          "name": "test2",
-          "value": "testing"
-        }
-      ]
+      "defaultValue": [  ]
+    },
+    "debugMode": {
+      "type": "bool",
+      "defaultValue": false
     },
     "subscriptionId": {
       "type": "string",
@@ -100,6 +95,10 @@
       {
         "name": "AZURE_KEYVAULT",
         "value": "[parameters('newVaultName')]"
+      },
+      {
+        "name": "DEBUGMODE",
+        "value": "[parameters('debugMode')]"
       }
     ],
     "roleDefinitions": {
