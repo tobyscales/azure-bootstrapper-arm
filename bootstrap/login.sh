@@ -33,7 +33,8 @@ az configure --defaults group=$AZURE_RESOURCE_GROUP
 
 cd /$BOOTSTRAP_REPO
 
-curl -s $BOOTSTRAP_URI | bash
+curl -o bootstrap.sh $BOOTSTRAP_URI
+source bootstrap.sh
 
 ## sample keyvault secret set/get operations
 #az keyvault secret set --vault-name $AZURE_KEYVAULT --name "mySecret" --value "mySecretValue"  > secret.json
