@@ -138,8 +138,7 @@
         "count": "[length(parameters('environmentVars'))]",
         "input": {
           "name": "[parameters('environmentVars')[copyIndex('passedVars')].name]",
-          "value": "[parameters('environmentVars')[copyIndex('passedVars')].value]",
-          "securevalue": "[parameters('environmentVars')[copyIndex('passedVars')].securevalue]"
+          "securevalue": "[parameters('environmentVars')[copyIndex('passedVars')].value]"
         }
       }
     ],
