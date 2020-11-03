@@ -15,12 +15,44 @@
                 "description": "Your GitHub repo"
             },
             "defaultValue": "azure-bootstrapper-arm"
+        },
+        "environmentVars": {
+            "type": "array",
+            "metadata": {
+                "description": "Pass additional parameters to the bootstrap.sh script."
+            },
+            "defaultValue": [ { "name": "test", "value": "tested" }, { "name": "test2", "value": "testing" } ]
         }
     },
     "variables": {
-        "thisRepoUri": "[if(contains(string(deployment().properties), 'templateLink'), 'https://raw.githubusercontent.com/tescales/azure-bootstrapper-arm/master', deployment().templateLink.uri)]",
+        "nativeEnvironmentVariables": [
+            {
+                "name": "THIS_REPO",
+                "value": "[concat(variables('thisRepoUser'), '/', variables('thisRepo'))]"
+            },
+            {
+                "name": "AZURE_RESOURCE_GROUP",
+                "value": "[resourceGroup().name]"
+            },
+            {
+                "name": "AZURE_LOCATION",
+                "value": "[resourceGroup().location]"
+            }
+        ],
+        "thisRepoUri": "[if(contains(deployment().properties, 'templateLink'), deployment().properties.templateLink.uri, 'https://raw.githubusercontent.com/tescales/azure-bootstrapper-arm/master')]",
         "thisRepoUser": "[take(skip(array(split(variables('thisRepoUri'), '/')),3),1)[0]]",
         "thisRepo": "[take(skip(array(split(variables('thisRepoUri'), '/')),4),1)[0]]",
+            "copy": [
+                {
+                    "name": "passedEnvironVars",
+                    "count": "[length(parameters('environmentVars'))]",
+                    "input": {
+                        "name": "[parameters('environmentVars')[copyIndex('passedEnvironVars')].name]",
+                        "value": "[parameters('environmentVars')[copyIndex('passedEnvironVars')].value]"
+                    }
+                }
+            ],
+        "environmentVariables": "[union(variables('passedEnvironVars'),  variables('nativeEnvironmentVariables'))]",
 
         "ghURL": "[concat('https://raw.githubusercontent.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'), '/master')]",
         "ghArray": "[take(skip(array(split(variables('ghURL'), '/')),3),2)]",
@@ -29,13 +61,13 @@
     "resources": [
     ],
     "outputs": {
-        "ghArray": {
-            "type": "string",
-            "value": "[variables('thisRepoUser')]"
+        "envVars": {
+            "type": "array",
+            "value": "[variables('environmentVariables')]"
         },
         "ghCreateArray": {
             "type": "string",
-            "value": "[variables('thisRepo')]"
+            "value": "[variables('thisRepoUri')]"
         }
     }
 }
