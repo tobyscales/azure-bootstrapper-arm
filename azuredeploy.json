@@ -7,7 +7,7 @@
       "metadata": {
         "description": "Your GitHub username"
       },
-      "defaultValue": "tescales"
+      "defaultValue": "tobyscales"
     },
     "gitHubRepo": {
       "type": "string",
@@ -16,7 +16,7 @@
       },
       "defaultValue": "azure-bootstrapper-arm"
     },
-    "bootStrapUri": {
+    "scriptUri": {
       "type": "string",
       "metadata": {
         "description": "URI for your bootstrap script; if not specified will pull bootstrap/bootstrap.sh from the GH repo."
@@ -70,7 +70,7 @@
     "nativeEnvironmentVariables": [
       {
         "name": "BOOTSTRAP_URI",
-        "value": "[variables('bootStrapUri')]"
+        "value": "[variables('scriptUri')]"
       },
       {
         "name": "THIS_REPO",
@@ -127,11 +127,11 @@
     "chosenRole": "[variables('roleDefinitions')[parameters('roleName')].id]",
     "roleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', variables('chosenRole'))]",
     "roleAssignmentId": "[guid(resourceGroup().name)]",
-    "thisRepoUri": "[if(contains(deployment().properties, 'templateLink'), deployment().properties.templateLink.uri, 'https://raw.githubusercontent.com/tescales/azure-bootstrapper-arm/master')]",
+    "thisRepoUri": "[if(contains(deployment().properties, 'templateLink'), deployment().properties.templateLink.uri, 'https://raw.githubusercontent.com/tobyscales/azure-bootstrapper-arm/master')]",
     "thisRepoUser": "[take(skip(array(split(variables('thisRepoUri'), '/')),3),1)[0]]",
     "thisRepo": "[take(skip(array(split(variables('thisRepoUri'), '/')),4),1)[0]]",
     "ghURI": "[concat('https://raw.githubusercontent.com/', parameters('gitHubUser'), '/', parameters('gitHubRepo'), '/master/bootstrap/bootstrap.sh')]",
-    "bootStrapUri": "[if(empty(parameters('bootStrapUri')),variables('ghURI'),parameters('bootStrapUri'))]",
+    "scriptUri": "[if(empty(parameters('scriptUri')),variables('ghURI'),parameters('scriptUri'))]",
     "copy": [
       {
         "name": "passedVars",

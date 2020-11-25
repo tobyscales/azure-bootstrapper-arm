@@ -20,13 +20,5 @@ Hopefully this makes your life a bit easier!
 [azure-resource-manager]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/
 [azure-bootstrapper-arm]: https://github.com/tescales/azure-bootstrapper-arm
 
-```mermaid
-%% Here's a great diagram
-	AzureADAuthenticationDiagram
-		IdP->>RP: hi there
-	end
-​```
-```
-
 
 

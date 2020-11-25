@@ -1,7 +1,7 @@
 ## Variables
 $resourceGroup = "azure-bootstrapper-arm"
 $location = "westus2"
-$gitHubUser = "tescales"
+$gitHubUser = "tobyscales"
 $gitHubRepo = "azure-bootstrapper-arm"
 $roleName = "Owner"
 $kvName = "none"
