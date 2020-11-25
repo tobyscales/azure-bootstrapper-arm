@@ -18,7 +18,7 @@ Hopefully this makes your life a bit easier!
 
 [azure-container-instances]: https://docs.microsoft.com/en-us/azure/container-instances/
 [azure-resource-manager]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/
-[azure-bootstrapper-arm]: https://github.com/tescales/azure-bootstrapper-arm
+[azure-bootstrapper-arm]: https://github.com/tobyscales/azure-bootstrapper-arm
 
-
-
+TODO: 
+* Add support for just running an ad-hoc script (no git-mount); figure it out based on parameter set/Uri
